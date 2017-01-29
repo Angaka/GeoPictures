@@ -49,4 +49,13 @@ public class Picture {
         this.date = date;
     }
 
+    @Override
+    public String toString() {
+        return "Picture{" +
+                "id='" + id + '\'' +
+                ", path='" + path + '\'' +
+                ", name='" + name + '\'' +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }

@@ -34,12 +34,19 @@ public class FolderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_folder, container, false);
         ButterKnife.bind(this, view);
 
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         folders = MediaStoreManager.getPictureFolders(getContext());
 
         for (Folder folder : folders) {
             System.out.println(folder.toString());
         }
-
 
         FolderAdapter adapter = new FolderAdapter(getContext(), folders);
         rvFolders.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -49,16 +56,10 @@ public class FolderFragment extends Fragment {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                 Intent pictureIntent = new Intent(getContext(), PictureActivity.class);
-                pictureIntent.putExtra(MediaStoreManager.PICTURE, Parcels.wrap(folders.get(position)));
+                pictureIntent.putExtra(MediaStoreManager.FOLDER, Parcels.wrap(folders.get(position)));
                 startActivity(pictureIntent);
             }
         });
 
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 }
