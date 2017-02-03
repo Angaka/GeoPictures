@@ -2,9 +2,12 @@ package com.projects.tan.geopictures;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.location.Location;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
 import java.text.ParseException;
@@ -48,7 +51,6 @@ public class MediaStoreManager {
 
                 columnIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
                 folder.setCoverId(cursor.getLong(columnIndex));
-
                 folders.add(folder);
                 ids.add(folder.getId());
             }
@@ -70,7 +72,9 @@ public class MediaStoreManager {
                 MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
                 MediaStore.Images.Media.BUCKET_ID,
                 MediaStore.Images.Media._ID,
-                MediaStore.Images.Media.DATE_MODIFIED
+                MediaStore.Images.Media.DATE_MODIFIED,
+                MediaStore.Images.Media.LATITUDE,
+                MediaStore.Images.Media.LONGITUDE,
         };
         Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
 
@@ -98,6 +102,14 @@ public class MediaStoreManager {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
                 String formattedDate = format.format(dateTaken);
                 picture.setDate(formattedDate);
+
+                Location location = new Location("");
+                columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.LONGITUDE);
+                location.setLongitude(cursor.getDouble(columnIndex));
+                columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.LATITUDE);
+                location.setLatitude(cursor.getDouble(columnIndex));
+                picture.setLocation(location);
+
                 pictures.add(picture);
             }
         }

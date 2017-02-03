@@ -1,5 +1,7 @@
 package com.projects.tan.geopictures;
 
+import android.location.Location;
+
 import org.parceler.Parcel;
 import org.parceler.ParcelConstructor;
 
@@ -14,9 +16,11 @@ public class Picture {
     private String path;
     private String name;
     private String date;
+    private Location location;
 
     @ParcelConstructor
-    public Picture() {}
+    public Picture() {
+    }
 
     public String getId() {
         return id;
@@ -25,6 +29,7 @@ public class Picture {
     public void setId(String id) {
         this.id = id;
     }
+
     public String getPath() {
         return path;
     }
@@ -49,6 +54,14 @@ public class Picture {
         this.date = date;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     @Override
     public String toString() {
         return "Picture{" +
@@ -56,6 +69,7 @@ public class Picture {
                 ", path='" + path + '\'' +
                 ", name='" + name + '\'' +
                 ", date='" + date + '\'' +
+                ", location=" + location +
                 '}';
     }
 }

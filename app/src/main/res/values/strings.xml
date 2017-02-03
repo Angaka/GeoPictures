@@ -1,8 +1,12 @@
 <resources>
+
+    <string name="API_KEY">AIzaSyCDXSqG1qjHQqHtm_GCCUY_lKiY2jBfPLo</string>
     <string name="app_name">GeoPictures</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="permission">You must grant %s permission to access this option</string>
 </resources>

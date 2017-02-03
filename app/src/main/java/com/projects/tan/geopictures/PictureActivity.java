@@ -1,5 +1,6 @@
 package com.projects.tan.geopictures;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -44,7 +45,7 @@ public class PictureActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        List<Picture> pictures = MediaStoreManager.getPicturesByFolderId(this, folder.getId());
+        final List<Picture> pictures = MediaStoreManager.getPicturesByFolderId(this, folder.getId());
         PictureAdapter adapter = new PictureAdapter(this, pictures);
 
         rvPictures.setLayoutManager(new GridLayoutManager(this, 3));
@@ -53,7 +54,9 @@ public class PictureActivity extends AppCompatActivity {
         RecyclerItemClickSupport.addTo(rvPictures).setOnItemClickListener(new RecyclerItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-
+                Intent pictureDetailIntent = new Intent(PictureActivity.this, PictureDetailActivity.class);
+                pictureDetailIntent.putExtra(MediaStoreManager.PICTURE, Parcels.wrap(pictures.get(position)));
+                startActivity(pictureDetailIntent);
             }
         });
     }

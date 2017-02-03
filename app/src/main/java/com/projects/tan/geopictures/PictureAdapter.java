@@ -53,7 +53,6 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         Picture picture = pictures.get(position);
 
-        System.out.println(picture.getPath());
         Glide.with(context)
             .load(picture.getPath())
             .diskCacheStrategy(DiskCacheStrategy.ALL)

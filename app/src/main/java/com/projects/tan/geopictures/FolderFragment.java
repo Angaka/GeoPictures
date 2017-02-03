@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,13 +33,12 @@ public class FolderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_folder, container, false);
         ButterKnife.bind(this, view);
 
-
         return view;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         folders = MediaStoreManager.getPictureFolders(getContext());
 
