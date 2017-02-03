@@ -27,6 +27,8 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imageview_picture)
         ImageView imgPicture;
+        @BindView(R.id.imageview_placeholder)
+        ImageView imgPlaceholder;
         @BindView(R.id.textview_picture_date_added)
         TextView tvPictureDateAdded;
 
@@ -58,6 +60,8 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .skipMemoryCache(true)
             .into(holder.imgPicture);
+        if (picture.getLocation().getLatitude() > 0 && picture.getLocation().getLongitude() > 0)
+            holder.imgPlaceholder.setVisibility(View.VISIBLE);
         holder.tvPictureDateAdded.setText(picture.getDate());
     }
 

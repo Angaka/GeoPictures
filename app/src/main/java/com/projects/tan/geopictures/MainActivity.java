@@ -1,5 +1,7 @@
 package com.projects.tan.geopictures;
 
+import android.*;
+import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -12,19 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.luseen.simplepermission.permissions.MultiplePermissionCallback;
-import com.luseen.simplepermission.permissions.Permission;
-import com.luseen.simplepermission.permissions.PermissionActivity;
-import com.luseen.simplepermission.permissions.PermissionUtils;
-import com.luseen.simplepermission.permissions.SinglePermissionCallback;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends PermissionActivity
+public class MainActivity extends RuntimePermissionsActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar)
@@ -33,6 +27,8 @@ public class MainActivity extends PermissionActivity
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
     NavigationView navView;
+
+    private boolean hasPermissionGranted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +44,23 @@ public class MainActivity extends PermissionActivity
         toggle.syncState();
 
         navView.setNavigationItemSelectedListener(this);
+
+        String[] permissions = {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                com.projects.tan.geopictures.Manifest.permission.MAPS_RECEIVE,
+        };
+
+        MainActivity.super.requestAppPermissions(permissions, R.string.permission, 20);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode) {
+        Toast.makeText(this, "Permissions Received.", Toast.LENGTH_LONG).show();
+        hasPermissionGranted = true;
     }
 
     @Override
@@ -86,61 +99,22 @@ public class MainActivity extends PermissionActivity
         // Handle navigation view item clicks here.
         final int id = item.getItemId();
 
-        Permission[] permissions = {
-                Permission.READ_EXTERNAL_STORAGE,
-                Permission.COARSE_LOCATION,
-                Permission.FINE_LOCATION,
-        };
+        if (hasPermissionGranted) {
+            Fragment fragment = null;
+            switch (id) {
+                case R.id.nav_gallery:
+                    fragment = new FolderFragment();
+                    break;
 
-        requestPermissions(permissions, new MultiplePermissionCallback() {
-            @Override
-            public void onPermissionGranted(boolean allPermissionsGranted, List<Permission> grantedPermissions) {
-                Fragment fragment = null;
-                switch (id) {
-                    case R.id.nav_gallery:
-                        fragment = new FolderFragment();
-                        break;
-
-                    default:
-                        break;
-                }
-
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.content_main, fragment);
-                ft.commitAllowingStateLoss();
+                default:
+                    break;
             }
 
-            @Override
-            public void onPermissionDenied(List<Permission> deniedPermissions, List<Permission> foreverDeniedPermissions) {
-                for (Permission permission : deniedPermissions)
-                    Toast.makeText(MainActivity.this, String.format(getString(R.string.permission), permission.toString()), Toast.LENGTH_LONG).show();
-            }
-        });
-/*        requestPermission(Permission.READ_EXTERNAL_STORAGE, new SinglePermissionCallback() {
-            @Override
-            public void onPermissionResult(boolean permissionGranted, boolean isPermissionDeniedForever) {
-                if (permissionGranted) {
-                    Fragment fragment = null;
-                    switch (id) {
-                        case R.id.nav_gallery:
-                            fragment = new FolderFragment();
-                            break;
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.content_main, fragment);
+            ft.commit();
+        }
 
-                        default:
-                            break;
-                    }
-
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.content_main, fragment);
-                    ft.commitAllowingStateLoss();
-                } else if (isPermissionDeniedForever) {
-                    PermissionUtils.openApplicationSettings(MainActivity.this);
-                } else {
-                    Toast.makeText(MainActivity.this, String.format(getString(R.string.permission), Permission.READ_EXTERNAL_STORAGE.toString()), Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });*/
 
         drawer.closeDrawer(GravityCompat.START);
         return true;

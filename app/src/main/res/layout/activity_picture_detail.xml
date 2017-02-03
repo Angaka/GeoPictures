@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/colorPrimaryDark"
+    android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
     <include
@@ -13,21 +13,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollview_picture"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <ImageView
-            android:id="@+id/imageview_picture"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"/>
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapview_picture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:apiKey="@string/API_KEY"
-            android:clickable="true"></com.google.android.gms.maps.MapView>
-    </LinearLayout>
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/imageview_picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true" />
+
+            <fragment
+                android:id="@+id/mapview_picture"
+                android:name="com.projects.tan.geopictures.WorkaroundMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/picture_map_height"
+                android:apiKey="@string/API_KEY"
+                android:clickable="true"></fragment>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
 </android.support.design.widget.CoordinatorLayout>

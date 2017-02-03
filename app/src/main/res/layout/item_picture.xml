@@ -11,6 +11,15 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"/>
 
+    <ImageView
+        android:id="@+id/imageview_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_placeholder"
+        android:visibility="invisible"/>
+
     <TextView
         android:id="@+id/textview_picture_date_added"
         android:layout_alignParentBottom="true"
