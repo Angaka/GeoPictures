@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.rohit.recycleritemclicksupport.RecyclerItemClickSupport;
@@ -37,6 +38,8 @@ public class PictureActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         folder = Parcels.unwrap(getIntent().getParcelableExtra(MediaStoreManager.FOLDER));
     }
@@ -59,5 +62,19 @@ public class PictureActivity extends AppCompatActivity {
                 startActivity(pictureDetailIntent);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+
+            default:
+                break;
+        }
+
+        return true;
     }
 }

@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,14 +20,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends RuntimePermissionsActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
-    NavigationView navView;
+    BottomNavigationView navView;
 
     private boolean hasPermissionGranted = false;
 
@@ -43,7 +44,7 @@ public class MainActivity extends RuntimePermissionsActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        navView.setNavigationItemSelectedListener(this);
+        navView.setOnNavigationItemSelectedListener(this);
 
         String[] permissions = {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -115,8 +116,6 @@ public class MainActivity extends RuntimePermissionsActivity
             ft.commit();
         }
 
-
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }

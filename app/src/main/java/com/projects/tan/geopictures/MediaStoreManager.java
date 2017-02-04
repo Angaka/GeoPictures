@@ -90,13 +90,10 @@ public class MediaStoreManager {
                 columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
 
                 picture.setPath(cursor.getString(columnIndex));
+                picture.setName(new File(cursor.getString(columnIndex)).getName());
 
-                columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
-                picture.setName(cursor.getString(columnIndex));
-
-                columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATE_MODIFIED);
                 Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(cursor.getInt(columnIndex));
+                calendar.setTimeInMillis(new File(cursor.getString(columnIndex)).lastModified());
                 Date dateTaken = calendar.getTime();
 
                 SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");

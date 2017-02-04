@@ -6,6 +6,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -30,6 +31,7 @@ import butterknife.ButterKnife;
 public class PictureDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     static final String TAG = PictureDetailActivity.class.getName();
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.scrollview_picture)
@@ -48,6 +50,8 @@ public class PictureDetailActivity extends AppCompatActivity implements OnMapRea
         picture = Parcels.unwrap(getIntent().getParcelableExtra(MediaStoreManager.PICTURE));
 
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(picture.getName());
 
         Glide.with(this)
@@ -76,5 +80,19 @@ public class PictureDetailActivity extends AppCompatActivity implements OnMapRea
         googleMap.addMarker(new MarkerOptions()
             .title(picture.getName())
             .position(latLng));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+
+            default:
+                break;
+        }
+
+        return true;
     }
 }
